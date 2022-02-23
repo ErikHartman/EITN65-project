@@ -64,8 +64,6 @@ V = zeros(Nt,1);
 V(1) = E_L;
 % Initialize synaptic current
 I_syn = zeros(Nt,1);
-I_syn1 = zeros(Nt,1);
-I_syn2 = zeros(Nt,1);
 % Initialize a vector for the spike train of the simulated neuron
 % (false, or 0, when there is no spike, true, or 1, when there is a spike)
 spike_train_out = false(1,Nt);
@@ -102,43 +100,4 @@ for i = 2:Nt
 end
 
 N_spikes = sum(spike_train_out);
-f_tertiary = 1/N_spikes;
-
-% %% Section 6: Plot results
-% figure('Name','An integrate-and-fire neuron with one synapse')
-% % Plot synaptic conductance and indicate time points of presynptic action
-% % potential firing
-% p(1) = subplot(411)
-% hold on;
-% h1 = plot(t,G_syn1);
-% h2 = plot(t,G_syn2);
-% plot(t(spike_train1==1),1.1*max(G_syn1)*ones(sum(spike_train1),1),...
-%     '.','Color',h1.Color,'Marker','*');
-% plot(t(spike_train2==1),1.1*max(G_syn2)*ones(sum(spike_train2),1),...
-%     '.','Color',h2.Color,'Marker','*');
-% ylabel(sprintf('Synaptic \nconductance (nS)'));
-% legend('Synaptic conductance (1)','Synaptic conductance (2)');
-% % Plot synaptic current
-% p(2) = subplot(412)
-% hold on
-% plot(t,I_syn1)
-% plot(t,I_syn2)
-% plot(t,I_syn,'k')
-% ylabel(sprintf('Synaptic \ncurrent (nA)'));
-% % Plot membrane potential over time
-% p(3) = subplot(4,1,3:4)
-% hold on;
-% % Plot membrane potential
-% plot(t,V)
-% % Indicate time points of action potential firing
-% line([t(spike_train_out);t(spike_train_out)],...
-%      [V_th*ones(1,sum(spike_train_out));V_spike*ones(1,sum(spike_train_out))],...
-%      'Color','c');
-% xlabel('Time (ms)');
-% ylabel('Membrane potential (mV)');
-% axis([0 tstop 1.5*E_L 1.1*V_spike])
-% if any(spike_train_out)
-%     legend('Membrane potential','Action potential firing');
-% end
-% % Link axes for zooming
-% linkaxes(p,'x')
+f_tertiary = N_spikes;

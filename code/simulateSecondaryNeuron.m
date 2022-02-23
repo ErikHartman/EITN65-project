@@ -92,7 +92,7 @@ for i = 2:Nt
 end
 
 N_spikes = sum(spike_train);
-f_secondary = (tstop*10^-3)/N_spikes;
+f_secondary = N_spikes;
 
 %% Section 4: Plot results
 if plotFlag == 1
