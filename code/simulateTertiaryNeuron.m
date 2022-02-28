@@ -17,11 +17,9 @@ tstop = 1000;
 t = 0:delta:tstop;
 % Number of time steps
 Nt = numel(t);
-
 % Capacitance [nF] and leak resistance [M ohms]
 C = 0.5;
 R = 40;
-
 % Reversal potential for leak current (i.e., equilibrium potential) [mV]
 E_L = -60;
 % Threshold for action potential generation [mV]
@@ -52,11 +50,11 @@ I = A_pp_I*rand(Nt,1)-1/(Pos_to_neg_ratio+1);
 
 %% Section 4: Compute changes in synaptic conductance due to input spikes
 % (a simple convolution as we know the arrival of all input spikes in advance)
-for i = 1:25     
+
+for i = 1:size(spike_trains,2)  
     g_syn(:,i) = conv(alpha_func,spike_trains(:,i)); 
 end
 g_syn = g_syn(1:Nt,:);
-
 %% Section 5: Compute changes in membrane potential due to synaptic current
 % Allocate a vector for the membrane potential (V = 0 mV)
 V = zeros(Nt,1);

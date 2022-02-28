@@ -8,21 +8,32 @@ Y_train = zeros(N_train,1);
 X_test = zeros(N_test, 35);
 Y_test = zeros(N_test,1);
 
-
 % generate braille test and train set 
-Y_train(1:N_train/2) = 1; 
-Y_train(1+N_train/2:end) = 2;
 for i = 1:N_train 
-    X_train(i,:) = simulateBraille(Y_train(i)); 
+    k = mod(i,4)+1;
+    Y_train(i) = k;
+    X_train(i,:) = simulateBraille(k); 
 end
-display('Training set done')
-Y_test(1:N_test/2) = 1;
-Y_test(1+N_test/2:end) = 2;% 
+disp('Training set done')
 for i = 1:N_test
-    X_test(i,:) = simulateBraille(Y_test(i)); 
+    k = mod(i,4)+1;
+    Y_test(i) = k;
+    X_test(i,:) = simulateBraille(k); 
 end
-display('Test set done')
+disp('Test set done')
+
+
+
+[coeff, score] = pca(X_train);
+figure;
+biplot(coeff(:,1:2),'scores',score(:,1:2), 'Marker','*');
+figure;
+plot(sum(coeff),'*-')
+
 % Input into SVM
-SVM_model = fitcsvm(X_train,Y_train);
-[label,~] = predict(SVM_model,X_test)
+SVM_model = fitcecoc(X_train,Y_train);
+[label,~] = predict(SVM_model,X_test);
+
+accuracy =  sum(Y_test == label)/N_test;
+
 

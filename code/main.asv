@@ -1,29 +1,37 @@
 % generate input stimuli for 2 characters ( to begin with ) 
 
-% init parameters
-N_train = 1000;
-N_test = 100; 
+% preallocate
+N_train = 100;
+N_test = 20; 
 X_train = zeros(N_train, 35);
 Y_train = zeros(N_train,1);
 X_test = zeros(N_test, 35);
 Y_test = zeros(N_test,1);
 
-
 % generate braille test and train set 
-Y_train(1:500) = 1; 
-Y_train(501:end) = 2;% select which character
 for i = 1:N_train 
-    X_train(i,:) = simulateBraille(Y_train(i)); 
+    k = mod(i,4)+1;
+    Y_train(i) = k;
+    X_train(i,:) = simulateBraille(k); 
 end
-display('Training set done')
-Y_test(1:end) = 1;
-Y_test(51:end) = 2;% select which character
+disp('Training set done')
 for i = 1:N_test
-    X_test(i,:) = simulateBraille(Y_test(i)); 
+    k = mod(i,4)+1;
+    Y_test(i) = k;
+    X_test(i,:) = simulateBraille(k); 
 end
-display('Test set done')
+disp('Test set done')
 % Input into SVM
-SVM_model = fitcsvm(X_train,Y_train);
-[label,~] = predict(SVM_model,X_test)
 
-results = 
+
+[coeff, score] = pca(X_train);
+figure;
+biplot(coeff(:,1:2),'scores',score(:,1:2));
+
+
+SVM_model = fitcecoc(X_train,Y_train);
+[label,~] = predict(SVM_model,X_test);
+
+accuracy =  sum(Y_test == label)/N_test;
+
+
