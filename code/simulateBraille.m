@@ -26,27 +26,27 @@ spike_trains = simulateSecondLayer(Stim);
 % Stimulate third layer
 f_tertiary = simulateTertiaryLayer(A_pp_I, spike_trains, E_syn);
 
-function Stim = simulate_E(Stim, I_strong,I_weak)
-    Stim(7) = I_strong;
-    Stim(19) = I_strong;
-end
-function Stim = simulate_J(Stim,I_strong,I_weak)
-    Stim(9) = I_strong;
-    Stim(19) = I_strong;
-    Stim(17) = I_strong;
-end
+    function Stim = simulate_E(Stim, I_strong,I_weak)
+        Stim(7) = I_strong;
+        Stim(19) = I_strong;
+    end
+    function Stim = simulate_J(Stim,I_strong,I_weak)
+        Stim(9) = I_strong;
+        Stim(19) = I_strong;
+        Stim(17) = I_strong;
+    end
 
-function Stim = simulate_R(Stim,I_strong,I_weak)
-    Stim(7) = I_strong;
-    Stim(17) = I_strong;
-    Stim(27) = I_strong;
-    Stim(19) = I_strong;
-end
+    function Stim = simulate_R(Stim,I_strong,I_weak)
+        Stim(7) = I_strong;
+        Stim(17) = I_strong;
+        Stim(27) = I_strong;
+        Stim(19) = I_strong;
+    end
 
-function Stim = simulate_U(Stim, I_strong,I_weak)
-    Stim(7) = I_strong;
-    Stim(27) = I_strong;
-    Stim(29) = I_strong;
-end
+    function Stim = simulate_U(Stim, I_strong,I_weak)
+        Stim(7) = I_strong;
+        Stim(27) = I_strong;
+        Stim(29) = I_strong;
+    end
 
 end

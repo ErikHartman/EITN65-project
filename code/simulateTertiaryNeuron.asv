@@ -5,6 +5,7 @@ function f_tertiary = simulateTertiaryNeuron(A_pp_I,spike_trains,E_syn)
 % Comment this line if you want to have a different random presynptic spike
 % train every time you run the script.
 % rand('state',0)
+
 %% Section 1a: Settings for the integrate-and-fire model
 % Time step delta [ms] with which the differential equation
 %                    dV/dt = - (V-E_L)/RC + I/C
@@ -40,12 +41,16 @@ tau_alpha1 = 1;
 g_syn_bar1 = 0.05; 
 % Alpha function
 alpha_func = g_syn_bar1*t/tau_alpha1.*(exp(1-t/tau_alpha1));
+
+
 %% Section 2: Define the input current with which the neuron is stimulated
 % Define constant input current [nA]
 Pos_to_neg_ratio = 1;
 I = A_pp_I*rand(Nt,1)-1/(Pos_to_neg_ratio+1);
+
 %% Section 4: Compute changes in synaptic conductance due to input spikes
 % (a simple convolution as we know the arrival of all input spikes in advance)
+
 for i = 1:size(spike_trains,2)  
     g_syn(:,i) = conv(alpha_func,spike_trains(:,i)); 
 end

@@ -1,5 +1,9 @@
 % generate input stimuli for 2 characters ( to begin with ) 
 
+% Frågor
+% Hur ska vi simulera Braille? Strong currents, weak currents, lateral inhibition etc
+% Är vår upplösning rimlig? 
+
 % preallocate
 N_train = 100;
 N_test = 20; 
@@ -22,7 +26,9 @@ for i = 1:N_test
 end
 disp('Test set done')
 
-
+% Shuffle
+[X_train, Y_train] = shuffle(X_train, Y_train);
+[X_test, Y_test] = shuffle(X_test, Y_test);
 
 [coeff, score] = pca(X_train);
 figure;
@@ -35,5 +41,12 @@ SVM_model = fitcecoc(X_train,Y_train);
 [label,~] = predict(SVM_model,X_test);
 
 accuracy =  sum(Y_test == label)/N_test;
+
+function [X,Y] = shuffle(X,Y)
+    n = length(Y);
+    idx = randperm(n);
+    Y = Y(idx);
+    X =  X(idx,:);
+end
 
 
