@@ -1,9 +1,5 @@
 % generate input stimuli for 2 characters ( to begin with ) 
 
-% Frågor
-% Hur ska vi simulera Braille? Strong currents, weak currents, lateral inhibition etc
-% Är vår upplösning rimlig? 
-
 % preallocate
 N_train = 100;
 N_test = 20; 
@@ -12,17 +8,21 @@ Y_train = zeros(N_train,1);
 X_test = zeros(N_test, 35);
 Y_test = zeros(N_test,1);
 
+lateral_inhibition_flag = 1;
+I = 10; % strong
+% I = 1; % weak
+
 % generate braille test and train set 
 for i = 1:N_train 
     k = mod(i,4)+1;
     Y_train(i) = k;
-    X_train(i,:) = simulateBraille(k); 
+    X_train(i,:) = simulateBraille(k, lateral_inhibition_flag, I); 
 end
 disp('Training set done')
 for i = 1:N_test
     k = mod(i,4)+1;
     Y_test(i) = k;
-    X_test(i,:) = simulateBraille(k); 
+    X_test(i,:) = simulateBraille(k, lateral_inhibition_flag, I); 
 end
 disp('Test set done')
 
