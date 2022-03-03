@@ -60,12 +60,14 @@ f_J_li = reshape(f_J_li, 5,7)';
 f_U_li = reshape(f_U_li, 5,7)';
 f_R_li = reshape(f_R_li, 5,7)';
 
-figure;
+fig_handle = figure;
+caxis([40 60])
 subplot(4,2,1)
 
 imagesc(f_E);
 title('E')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,2)
@@ -73,6 +75,7 @@ subplot(4,2,2)
 imagesc(f_J);
 title('J')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,3)
@@ -80,6 +83,7 @@ subplot(4,2,3)
 imagesc(f_R);
 title('R')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,4)
@@ -87,6 +91,7 @@ subplot(4,2,4)
 imagesc(f_U);
 title('U')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,5)
@@ -94,6 +99,7 @@ subplot(4,2,5)
 imagesc(f_E_li);
 title('E li')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,6)
@@ -101,6 +107,7 @@ subplot(4,2,6)
 imagesc(f_J_li);
 title('J li')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,7)
@@ -108,6 +115,7 @@ subplot(4,2,7)
 imagesc(f_R_li);
 title('R li')
 colorbar;
+caxis([45,60])
 axis square;
 
 subplot(4,2,8)
@@ -115,5 +123,6 @@ subplot(4,2,8)
 imagesc(f_U_li);
 title('U li')
 colorbar;
+caxis([45,60])
 axis square;
 
