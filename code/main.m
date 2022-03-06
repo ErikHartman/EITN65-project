@@ -8,6 +8,7 @@ Y_test = zeros(N_test,1);
 
 % Parameters
 lateral_inhibition_flag = 1;
+noise_flag = 1;
 I = 10; % strong
 % I = 1; % weak
 nr_letters = 11;
@@ -16,13 +17,13 @@ nr_letters = 11;
 for i = 1:N_train 
     k = mod(i,nr_letters)+1;
     Y_train(i) = k;
-    X_train(i,:) = simulateBraille(k, lateral_inhibition_flag, I); 
+    X_train(i,:) = simulateBraille(k, lateral_inhibition_flag, noise_flag, I); 
 end
 disp('Training set done')
 for i = 1:N_test
     k = mod(i,nr_letters)+1;
     Y_test(i) = k;
-    X_test(i,:) = simulateBraille(k, lateral_inhibition_flag, I); 
+    X_test(i,:) = simulateBraille(k, lateral_inhibition_flag, noise_flag, I); 
 end
 disp('Test set done')
 
@@ -31,11 +32,18 @@ disp('Test set done')
 [X_test, Y_test] = shuffle(X_test, Y_test);
 
 % PCA
-[coeff, score] = pca(X_train);
+[coeff, score, latent] = pca(X_train);
 figure;
 biplot(coeff(:,1:2),'scores',score(:,1:2), 'Marker','*');
 figure;
-plot(sum(coeff),'*-')
+hold on
+subplot(2,1,1)
+title('Component importance')
+plot(latent/sum(latent),'*-')
+subplot(2,1,2)
+title('Cumulative sum')
+plot(cumsum(latent/sum(latent)),'*-')
+hold off
 
 % Input into SVM
 SVM_model = fitcecoc(X_train,Y_train);
@@ -43,9 +51,8 @@ SVM_model = fitcecoc(X_train,Y_train);
 accuracy =  sum(Y_test == label)/N_test;
 
 % SVM on PCA-results
-[coeff, score2] = pca(X_test);
-X_train2 = score(:,1:5);
-X_test2 = score2(:,1:5);
+X_train2 = X_train*coeff;
+X_test2 = X_test*coeff;
 SVM_model2 = fitcecoc(X_train2,Y_train);
 [label2,~] = predict(SVM_model2,X_test2);
 accuracy2 =  sum(Y_test == label2)/N_test;

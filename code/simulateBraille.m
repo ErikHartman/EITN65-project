@@ -1,4 +1,4 @@
-function f_tertiary = simulateBraille(input_char, lateral_inhibition_flag, I)
+function f_tertiary = simulateBraille(input_char, lateral_inhibition_flag, noise_flag, I)
     % Parameters
     A_pp_I = 3;
     Stim = zeros(35,1);
@@ -8,6 +8,11 @@ function f_tertiary = simulateBraille(input_char, lateral_inhibition_flag, I)
     for l = 1:length(pos)
         Stim(pos) = I;
     end
+    
+    if noise_flag == 1
+        Stim = add_noise(Stim, I);
+    end
+    
     [spike_trains, ~] = simulateSecondLayer(Stim); 
     for i = 1:35
         E_syn = nan(35,1);
@@ -51,6 +56,12 @@ function pos = simulate_char(input_char)
     end
 end
 
+function Stim = add_noise(Stim, I)
+    for i=1:35
+        Stim(i) = Stim(i) + rand*I/20;
+    end
+end
+
 function E_syn = add_lateral_inhibition(i)
             E_syn = nan(35,1);
             E_syn(i) = 0;
@@ -71,20 +82,20 @@ function E_syn = add_lateral_inhibition(i)
 %                 not bottom --> add bottom
                   E_syn(i+5) = -75;
             end
-            if i <= 29 && mod(i,5) ~= 1
-%                 not bottom left --> add diagonal down right
+            if i~= 31 && i < 31
+%                 not bottom left and not last row --> add diagonal down right
                     E_syn(i+6) = -75;
             end
-            if i <= 30 && mod(i,5) ~= 0
-%                 not bottom right --> add diagonal down left
+            if i ~=35 && i < 31
+%                 not bottom right and not last row--> add diagonal down left
                     E_syn(i+4) = - 75;
             end
-            if i >=6 && mod(i,5) ~= 1
-%                 not top left --> add diagonal up right
+            if i ~= 1 && i >= 6
+%                 not top left and on second row --> add diagonal up right
                     E_syn(i-4) = -75;
             end
-            if i >= 7 && mod(i,5) ~= 0
-%                 not top right --> add diagonal up left
+            if i ~= 5 && i>6
+%                 not top right and on second row --> add diagonal up left
                     E_syn(i-6) = -75;
             end
 end
