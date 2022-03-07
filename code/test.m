@@ -23,20 +23,33 @@ f_tertiary = simulateTertiaryNeuron(A_pp_I,spike_trains,E_syn);
 %% simulating tertiary layer (takes spike_trains from above)
 A_pp_I = 3;
 
-f_tertiary = simulateBraille(1,0, 1, 10);
+f_tertiary_weak = simulateBraille(1,0, 0, 1);
+f_tertiary_weak = reshape(f_tertiary_weak, 5,7)';
+f_tertiary = simulateBraille(1,0, 0, 10);
 f_tertiary = reshape(f_tertiary, 5,7)';
-f_tertiary_li = simulateBraille(1,1, 1, 10);
+f_tertiary_li = simulateBraille(1,1, 0, 10);
 f_tertiary_li = reshape(f_tertiary_li, 5,7)';
+f_tertiary_noise = simulateBraille(1,0,1,10);
+f_tertiary_noise = reshape(f_tertiary_noise, 5,7)';
 figure;
-subplot(2,1,1);
-imagesc(f_tertiary);
-title('Tertiary layer frequency')
+subplot(2,2,1);
+imagesc(f_tertiary_weak);
+title('Weak current')
 colorbar;
 axis square;
-subplot(2,1,2);
-
+subplot(2,2,2);
+imagesc(f_tertiary);
+title('Strong current')
+colorbar;
+axis square;
+subplot(2,2,3);
+imagesc(f_tertiary_noise);
+title('Strong current with noise')
+colorbar;
+axis square;
+subplot(2,2,4);
 imagesc(f_tertiary_li);
-title('With LI')
+title('Strong current with noise and LI')
 colorbar;
 axis square;
 %% plotting character third layer
@@ -44,15 +57,15 @@ axis square;
 upper_color_lim = 58;
 lower_color_lim = 45;
 
-f_E = simulateBraille(1, 0, 1, 20); 
-f_J = simulateBraille(2, 0, 1,20); 
-f_R = simulateBraille(3, 0, 1, 20); 
-f_U = simulateBraille(4, 0, 1, 20); 
+f_E = simulateBraille(1, 0, 1, 10); 
+f_J = simulateBraille(2, 0, 1,10); 
+f_R = simulateBraille(3, 0, 1, 10); 
+f_U = simulateBraille(4, 0, 1, 10); 
 
-f_E_li = simulateBraille(1, 1, 1, 20); 
-f_J_li = simulateBraille(2, 1, 1, 20); 
-f_R_li = simulateBraille(3, 1, 1, 20); 
-f_U_li = simulateBraille(4, 1, 1, 20); 
+f_E_li = simulateBraille(1, 1, 1, 10); 
+f_J_li = simulateBraille(2, 1, 1, 10); 
+f_R_li = simulateBraille(3, 1, 1, 10); 
+f_U_li = simulateBraille(4, 1, 1, 10); 
 
 f_E = reshape(f_E, 5,7)';
 f_J = reshape(f_J, 5,7)';

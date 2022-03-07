@@ -49,8 +49,6 @@ function pos = simulate_char(input_char)
         case 9
             pos = [27,17,9];
         case 10
-            pos = [7, 27, 29];
-        case 11
             pos = [9, 19, 29, 27, 7];
             
     end
